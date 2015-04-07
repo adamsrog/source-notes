@@ -47,3 +47,27 @@ This adds various extensions:
 * `.oneWay(dependentKey)` - returns an alias for the `dependentKey`, but using `set` will not change the aliased property (i.e. not bidirectional)
 * `.readOnly(dependentKey)` - returns an alias for the `dependentKey`, but will throw an error if `set` is used
 
+##`ember-metal/lib/error.js`
+### Ember Errors
+Subclasses the JavaScript Error object and is used throughout Ember.  Allows for a stack trace when errors are thrown.
+
+##`ember-metal/lib/events.js`
+### Ember Events
+* `.addListener(obj, eventName, target, method, once)` - adds an event listener 
+* `.removeListener(obj, eventName, target, method)` - removes an event listener
+* `.suspendListener(obj, eventName, target, method, callback)` - suspend a listener during a callback
+* `.suspendListeners(obj, eventNames, target, method, callback)` - suspend multiple listeners during a callback
+* `.on(eventNames..., func)` - execute a function when a specified event or events are triggered
+
+##`ember-metal/lib/get_properties.js`
+### Getting multiple properties
+`.getProperties(objects, strings.../Array of strings)` allows for getting multiple properties at once.
+```javascript
+Ember.getProperties(record, 'firstName', 'lastName', 'zipCode');
+// { firstName: 'John', lastName: 'Doe', zipCode: '10011' }
+```
+... is the same as ...
+```javascript
+Ember.getProperties(record, ['firstName', 'lastName', 'zipCode']);
+// { firstName: 'John', lastName: 'Doe', zipCode: '10011' }
+```
