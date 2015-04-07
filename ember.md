@@ -27,6 +27,7 @@ This adds various extensions:
 * `.readOnly()` - Throw an error if there is an attempt to set it.
 
 ##`ember-metal/lib/computed_macros.js`
+(includes `ember-metal/lib/is_empty.js`, `ember-metal/lib/is_none.js`, `ember-metal/lib/alias.js`)
 ### Computed Property Macros
 * `.empty(dependentKey)` - returns true if `dependentKey` is null, empty string, empty array, or empty function
 * `.notEmpty(dependentKey)` - returns true if `dependentKey` is NOT null, empty string, empty array or empty function
@@ -47,9 +48,15 @@ This adds various extensions:
 * `.oneWay(dependentKey)` - returns an alias for the `dependentKey`, but using `set` will not change the aliased property (i.e. not bidirectional)
 * `.readOnly(dependentKey)` - returns an alias for the `dependentKey`, but will throw an error if `set` is used
 
-##`ember-metal/lib/error.js`
-### Ember Errors
-Subclasses the JavaScript Error object and is used throughout Ember.  Allows for a stack trace when errors are thrown.
+##`ember-metal/lib/error.js & logger.js`
+### Ember Errors & Logging
+Subclasses the JavaScript Error object and is used throughout Ember.  Allows for a stack trace when errors are thrown.  Multiple arguments can be passed to the `Ember.Logger` methods and they'll be joined together with a space.  The `Ember.Logger` methods include:
+* `Ember.Logger.log(arguments)` - normal log
+* `Ember.Logger.info(arguments)` - print to console in blue text
+* `Ember.Logger.debug(arguments)` - print to console in blue text
+* `Ember.Logger.warn(arguments)` - print to console with warning icon
+* `Ember.Logger.error(arguments)` - print to console with red text, error icon and stack trace
+* `Ember.Logger.assert(arguments)` - if value passed in isn't truthy, throw an error and stack trace
 
 ##`ember-metal/lib/events.js`
 ### Ember Events
