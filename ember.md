@@ -18,6 +18,14 @@ This adds various extensions:
 * `.lastIndexOf()`
 * `.filter()`
 
+### Function Prototype Extension
+(from `ember-metal/lib/mixin.js`)
+These extensions are available on a Function:
+* `.observes(propertyNames..., function)` - `Ember.observer()` - Executes `function` anytime any `propertyName` changes.  This may become asynchronous.
+* `.observesImmediately(propertyNames..., function)` - `Ember.immediateObserver()` - Executes `function` anytime any `propertyName` changes.  Maintains synchronous behavior.
+* `.observesBefore(propertyNames..., function(obj, keyName))` - `Ember.beforeObserver()` - Fires before a property changes
+
+
 ##`ember-metal/lib/computed.js`
 ### Computed Properties
 * `.property()` - Turn a function into a property.  Runs the function and caches the result.
@@ -66,6 +74,17 @@ Subclasses the JavaScript Error object and is used throughout Ember.  Allows for
 * `.suspendListeners(obj, eventNames, target, method, callback)` - suspend multiple listeners during a callback
 * `.on(eventNames..., func)` - execute a function when a specified event or events are triggered
 
+From `ember-metal/lib/main.js`:
+A function may be assigned to `Ember.onerror` to be called when Ember internals encounter an error.  Useful for specialized error handling and reporting code.
+```javascript
+Ember.onerror = function(error) {
+  Em.$.ajax('/report-error', 'POST', {
+    stack: error.stack,
+    otherInformation: 'whatever app state you want to provide'
+  });
+};
+```
+
 ##`ember-metal/lib/get_properties.js`
 ### Getting multiple properties
 `.getProperties(objects, strings.../Array of strings)` allows for getting multiple properties at once.
@@ -78,3 +97,36 @@ Ember.getProperties(record, 'firstName', 'lastName', 'zipCode');
 Ember.getProperties(record, ['firstName', 'lastName', 'zipCode']);
 // { firstName: 'John', lastName: 'Doe', zipCode: '10011' }
 ```
+
+##`ember-metal/lib/merge.js`
+### Merging two objects
+`Ember.merge(firstObject, secondObject)` - merges contents of `secondObject` into `firstObject`.
+```javascript
+Ember.merge({first: 'Tom'}, {last: 'Dale'}); // {first: 'Tom', last: 'Dale'}
+var a = {first: 'Yehuda'};
+var b = {last: 'Katz'};
+Ember.merge(a, b); // a == {first: 'Yehuda', last: 'Katz'}, b == {last: 'Katz'}
+```
+
+##`ember-metal/lib/mixin.js`
+### Ember Mixins
+Believe first section contains logic for enabling mixins.  Lots of merging of objects and setup of listeners, observers, etc.  TODO: revisit this part
+
+##`ember-metal/lib/run_loop.js`
+### Ember Run Loop
+The run loop appears to just wrap `backburner` methods.  Allows for executing methods in a `RunLoop` which ensures any deferred actions including bindings and views updates are flushed at the end.  TODO: learn more about `backburner`.
+
+* `run.queues` - array of named queues that determines flush order at end of `RunLoop`.  defaults to `['sync', 'actions', 'destroy']`
+* `sync` - binding synchronization
+* `actions` - runs after synchronization completes
+* `destroy` - 
+
+* `run()` - run in a `RunLoop`.  Alternatively, lower level way to use `RunLoop` is to wrap code in `run.begin()` ...code ... `run.end()`.
+* `run.join()` - create a run loop if needed, and queue itself to run on the existing run-loops action queue
+* `run.bind()` - allows for specification of which context to call the specified function in.  From source: This ability makes this method a great way to asynchronously integrate third-party libraries into your Ember application.
+* `run.schedule()`- schedule a function to run on one of the aforementioned queues
+* `run.sync()` - flush any events scheduled in the `sync` queue.
+* `run.later(context, function, timeout)` - invoke a method after a specified period of time (milliseconds).  This should be used instead of `setTimeout()` to ensure synchronization of script execution cycles.
+* `run.once(context, function, arguments)` - schedule a function to run one time during current `RunLoop`.  This is the equivalent of calling `scheduleOnce()` in the `actions` queue.  Returns time information used to cancel (if necessary).
+* `run.scheduleOnce(queue, context, function, arguments)` - schedule a function to run in a specified queue
+
