@@ -98,6 +98,19 @@ Ember.getProperties(record, ['firstName', 'lastName', 'zipCode']);
 // { firstName: 'John', lastName: 'Doe', zipCode: '10011' }
 ```
 
+##`ember-metal/lib/set_properties.js`
+### Setting multiple properties
+`.setProperties({hash})` - set a list of properties on an object.  They're set inside a single `beginPropertyChanges` and `endPropertyChanges` batch, so observered will be buffered.
+```javascript
+var obj = Ember.Object.create();
+
+obj.setProperties({
+  firstName: 'Stanley',
+  lastName: 'Stuart',
+  age: 21
+});
+```
+
 ##`ember-metal/lib/merge.js`
 ### Merging two objects
 `Ember.merge(firstObject, secondObject)` - merges contents of `secondObject` into `firstObject`.
@@ -131,4 +144,30 @@ The run loop appears to just wrap `backburner` methods.  Allows for executing me
 * `run.scheduleOnce(queue, context, function, arguments)` - schedule a function to run in a specified queue.  Use this instead of `run.next()`.
 * `run.debounce(context, function, timeout, bool)` - delay the target method until the debounce period has elapsed with no additional debounce calls.  If `debounce` is called, before the timeout elapsed then the time is reset adn the entire timeout must pass again before the method is called.  If `bool` is `true`, it'll run immediately and also debounce any other calls until the wait period is elapsed.
 * `run.throttle(context, function, timeout)` - ensure the target method is never called more frequently than the timeout period.  
-* `run.cancel()` - cancel a scheduled item from running by passing the value returned by any `run.later()`, `run.once()`, `run.next()`, `run.debounce()`, or `run.throttle()`
+* `run.cancel()` - cancel a scheduled item from running by passing the value returned by any `run.later()`, `run.once()`, `run.next()`, `run.debounce()`, or `run.throttle()
+`
+
+##`ember-metal/lib/utils.js`
+* Contains various functions dedicated to GUID generation, getting and setting.
+* Functions relating to getting and setting of the meta hash `__ember_meta__`
+* `wrap()` - (private) wraps the passed function so calls can be made to super using `this._super`
+* `.typeOf()` - return a consistent type for a passed item.  Use this instead of built-in `typeof`:
+```javascript
+Ember.typeOf();                       // 'undefined'
+Ember.typeOf(null);                   // 'null'
+Ember.typeOf(undefined);              // 'undefined'
+Ember.typeOf('michael');              // 'string'
+Ember.typeOf(new String('michael'));  // 'string'
+Ember.typeOf(101);                    // 'number'
+Ember.typeOf(new Number(101));        // 'number'
+Ember.typeOf(true);                   // 'boolean'
+Ember.typeOf(new Boolean(true));      // 'boolean'
+Ember.typeOf(Ember.makeArray);        // 'function'
+Ember.typeOf([1, 2, 90]);             // 'array'
+Ember.typeOf(/abc/);                  // 'regexp'
+Ember.typeOf(new Date());             // 'date'
+Ember.typeOf(Ember.Object.extend());  // 'class'
+Ember.typeOf(Ember.Object.create());  // 'instance'
+Ember.typeOf(new Error('teamocil'));  // 'error'
+Ember.typeOf({ a: 'b' });             // 'object'
+```
