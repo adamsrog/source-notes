@@ -128,5 +128,7 @@ The run loop appears to just wrap `backburner` methods.  Allows for executing me
 * `run.sync()` - flush any events scheduled in the `sync` queue.
 * `run.later(context, function, timeout)` - invoke a method after a specified period of time (milliseconds).  This should be used instead of `setTimeout()` to ensure synchronization of script execution cycles.
 * `run.once(context, function, arguments)` - schedule a function to run one time during current `RunLoop`.  This is the equivalent of calling `scheduleOnce()` in the `actions` queue.  Returns time information used to cancel (if necessary).
-* `run.scheduleOnce(queue, context, function, arguments)` - schedule a function to run in a specified queue
-
+* `run.scheduleOnce(queue, context, function, arguments)` - schedule a function to run in a specified queue.  Use this instead of `run.next()`.
+* `run.debounce(context, function, timeout, bool)` - delay the target method until the debounce period has elapsed with no additional debounce calls.  If `debounce` is called, before the timeout elapsed then the time is reset adn the entire timeout must pass again before the method is called.  If `bool` is `true`, it'll run immediately and also debounce any other calls until the wait period is elapsed.
+* `run.throttle(context, function, timeout)` - ensure the target method is never called more frequently than the timeout period.  
+* `run.cancel()` - cancel a scheduled item from running by passing the value returned by any `run.later()`, `run.once()`, `run.next()`, `run.debounce()`, or `run.throttle()`
