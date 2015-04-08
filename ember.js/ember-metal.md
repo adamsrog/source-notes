@@ -151,6 +151,7 @@ The run loop appears to just wrap `backburner` methods.  Allows for executing me
 * Contains various functions dedicated to GUID generation, getting and setting.
 * Functions relating to getting and setting of the meta hash `__ember_meta__`
 * `wrap()` - (private) wraps the passed function so calls can be made to super using `this._super`
+* `inspect()` - this is a convenience method used throughout the source to convert an object into useful string description
 * `.typeOf()` - return a consistent type for a passed item.  Use this instead of built-in `typeof`:
 ```javascript
 Ember.typeOf();                       // 'undefined'
