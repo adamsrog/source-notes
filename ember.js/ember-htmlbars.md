@@ -118,3 +118,30 @@ Attributes for `{{input type="checkbox"}}`:
 * `autofocus`
 * `form`
 
+## `ember-htmlbars/lib/helpers/loc.js`
+Convenient way to localize text within a template.
+
+```javascript
+Ember.STRINGS = {
+  '_welcome_': 'Bonjour'
+};
+```
+
+```handlebars
+<div class='message'>
+  {{loc '_welcome_'}}
+</div>
+```
+
+```html
+<div class='message'>
+  Bonjour
+</div>
+```
+
+## `ember-htmlbars/lib/helpers/log.js`
+Allows for output of the value of variables in the current rendering context.  `log` also accepts primitive types such as strings or numbers.
+
+```handlebars
+{{log "myVariable:" myVariable }}
+```
