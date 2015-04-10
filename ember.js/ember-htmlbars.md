@@ -5,26 +5,26 @@
 Wraps a Handlebars helper with an HTMLBars helper for backwards compatibility.
 
 ## `ember-htmlbars/lib/compat/register-bound-helper.js`
-* `Ember.Handlebars.registerBoundHelper(name, func)` - registers a bound Handlebars helper.  These bound helpers behave similarly to regular Handlebars helpers, with the added ability to re-render when the underlying data changes.
+`Ember.Handlebars.registerBoundHelper(name, func)` - registers a bound Handlebars helper.  These bound helpers behave similarly to regular Handlebars helpers, with the added ability to re-render when the underlying data changes.
 
-	```javascript
-	Ember.Handlebars.registerBoundHelper('capitalize', function(value) {
-	  return Ember.String.capitalize(value);
-	});
-	```
+```javascript
+Ember.Handlebars.registerBoundHelper('capitalize', function(value) {
+  return Ember.String.capitalize(value);
+});
+```
 
 Like normal Handlebars helpers, bound helpers have access to the options passed into the helper call.
 
-	```javascript
-	Ember.Handlebars.registerBoundHelper('repeat', function(value, options) {
-	  var count = options.hash.count;
-	  var a = [];
-	  while(a.length < count) {
-	      a.push(value);
-	  }
-	  return a.join('');
-	});
-	```
+```javascript
+Ember.Handlebars.registerBoundHelper('repeat', function(value, options) {
+  var count = options.hash.count;
+  var a = [];
+  while(a.length < count) {
+      a.push(value);
+  }
+  return a.join('');
+});
+```
 
 ### Helpers
 ## `ember-htmlbars/lib/helpers/component.js`
