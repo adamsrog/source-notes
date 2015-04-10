@@ -5,7 +5,7 @@
 Wraps a Handlebars helper with an HTMLBars helper for backwards compatibility.
 
 ## `ember-htmlbars/lib/compat/register-bound-helper.js`
-* `Ember.Handlebars.registerBoundHelper(name, func) - registers a bound Handlebars helper.  These bound helpers behave similarly to regular Handlebars helpers, with the added ability to re-render when the underlying data changes.
+* `Ember.Handlebars.registerBoundHelper(name, func)` - registers a bound Handlebars helper.  These bound helpers behave similarly to regular Handlebars helpers, with the added ability to re-render when the underlying data changes.
 
 	```javascript
 	Ember.Handlebars.registerBoundHelper('capitalize', function(value) {
@@ -117,3 +117,4 @@ Attributes for `{{input type="checkbox"}}`:
 * `name`
 * `autofocus`
 * `form`
+
