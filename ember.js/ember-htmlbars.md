@@ -34,15 +34,15 @@ It can be used within a template like so:  `{{component dynamicValue}}`
 
 Sticking the use case outlined above, `dynamicValue` would be a computed property that determines has some kind of logic determining the name of which component needs to be rendered.
 
-	```javascript
-	dynamicValue: Ember.computed('value', function() {
-		if (this.get('value')) {
-			return 'truthy-component';
-		} else {
-			return 'falsy-component';
-		}
-	})
-	```
+```javascript
+dynamicValue: Ember.computed('value', function() {
+	if (this.get('value')) {
+		return 'truthy-component';
+	} else {
+		return 'falsy-component';
+	}
+})
+```
 
 ## `ember-htmlbars/lib/helpers/debugger.js`
 * Execute the `debugger` statement in the current template's context.
@@ -57,29 +57,29 @@ Sticking the use case outlined above, `dynamicValue` would be a computed propert
 * Can specify an `itemViewClass` that'll be used for each item in the array.
 * Can specify an `emptyViewClass` which will be used if there are no items in the array (similar to `{{else}}`)
   
-  ```
-  {{#each person in developers}}
-    {{person.name}}
-  {{else}}
-    <p>Sorry, nobody is available for this task.</p>
-  {{/each}}
-  ```
+```
+{{#each person in developers}}
+  {{person.name}}
+{{else}}
+  <p>Sorry, nobody is available for this task.</p>
+{{/each}}
+```
 
 * Can specify an `itemController` to "decorate" the data in a controller.  Example from source:
 
-  ```javascript
-  App.RecruitController = Ember.ObjectController.extend({
-    isAvailableForHire: function() {
-      return !this.get('isEmployed') && this.get('isSeekingWork');
-    }.property('isEmployed', 'isSeekingWork')
-  })
-  ```
+```javascript
+App.RecruitController = Ember.ObjectController.extend({
+  isAvailableForHire: function() {
+    return !this.get('isEmployed') && this.get('isSeekingWork');
+  }.property('isEmployed', 'isSeekingWork')
+})
+```
 
-  ```handlebars
-  {{#each person in developers itemController="recruit"}}
-    {{person.name}} {{#if person.isAvailableForHire}}Hire me!{{/if}}
-  {{/each}}
-  ```
+```handlebars
+{{#each person in developers itemController="recruit"}}
+  {{person.name}} {{#if person.isAvailableForHire}}Hire me!{{/if}}
+{{/each}}
+```
 
 ## `ember-htmlbars/lib/helpers/input.js`
 * `{{input}}` helper is used to create an HTML `<input>` tag into a template.  If a `type` isn't specified, it'll default to `text`.  Can also use `checkbox`.
